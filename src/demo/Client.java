@@ -35,12 +35,16 @@ public class Client {
         server.enQueue(msg);
     }
 
-    public void receiveMessage(Message msg) {
-        System.out.println("Received " + msg.message + " from someone (do msg.sender.toString() here)")
+    public void receiveMessage(PrivateMessage msg) {
+        System.out.println(this.toString() + " received " + msg.getMessage() + " from " + msg.getSender().toString() + ".");
     }
 
     public void publishTopic(MessageType messageType, String message) {
         Message msg = new PublicMessage(messageType, message);
         server.addTopic(msg);
+    }
+    
+    public String toString() {
+    		return "Client@" + this.id;
     }
 }

@@ -10,7 +10,7 @@ public class Server {
     private static Server self = new Server();
     private static boolean locked = false;
     private List<Client> clientList = new ArrayList<Client>();
-    private BlockingQueue<Message> privateQueue = new LinkedBlockingQueue<Message>();
+    private List<Message> privateQueue = new ArrayList<Message>();
     private List<Message> publicTopics = new ArrayList<Message>();
 
 
@@ -26,7 +26,7 @@ public class Server {
     }
 
     public void accept(Client client) throws ConnectionException {
-        System.out.println(clientList);
+        // System.out.println(clientList);
         if(clientList.size()<5){
             clientList.add(client);
         } else {
@@ -54,14 +54,16 @@ public class Server {
     // queue to the receiver
     //
     public void processQueue() {
-        if (!locked) {
-            Message msg = privateQueue.get(0);
+    		System.out.println("Verifying queue.." + privateQueue.toString());
+    		
+        if (!locked && privateQueue.size() > 0) {
+            PrivateMessage msg = (PrivateMessage)privateQueue.get(0);
 
             // Lock server message processing
             locked = true;
 
             // Here, the receiver gets the message from the server.
-            msg.receiver.receiveMessage(msg);
+            msg.getReceiver().receiveMessage(msg);
 
             // Need to remove message from the message queue because it has been
             // processed.

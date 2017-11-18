@@ -1,8 +1,8 @@
 package demo;
 
 public abstract class Message {
-    private String message;
-    private MessageType messageType;
+    protected String message;
+    protected MessageType messageType;
 
     public Message(MessageType messageType, String message){
         this.messageType = messageType;
